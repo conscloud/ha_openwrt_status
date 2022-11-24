@@ -63,6 +63,42 @@ SENSOR_TYPES = {
         "label": "WAN IP6 Uptime",
         "name": "openwrt_wan6_uptime",
     },
+        "openwrt_cpufre": {
+        "icon": "mdi:pulse",
+        "label": "CPU 频率",
+        "name": "openwrt_cpufre",
+        "unit_of_measurement": "MHz",
+    },
+    "openwrt_userinfo": {
+        "icon": "mdi:account",
+        "label": "在线用户数",
+        "name": "openwrt_userinfo",
+    },
+    "openwrt_conncount": {
+        "icon": "mdi:clipboard-pulse",
+        "label": "活动连接",
+        "name": "openwrt_conncount",
+    }, 
+    "openwrt_version": {
+        "icon": "mdi:alpha-v-circle-outline",
+        "label": "固件版本",
+        "name": "openwrt_version",
+    },
+    "openwrt_name": {
+        "icon": "mdi:router-network",
+        "label": "设备名称",
+        "name": "openwrt_name",
+    },
+    "openwrt_kernel": {
+        "icon": "mdi:linux",
+        "label": "内核版本",
+        "name": "openwrt_kernel",
+    },
+    "openwrt_cpu_brand": {
+        "icon": "mdi:copyright",
+        "label": "CPU型号",
+        "name": "openwrt_cpu_brand",
+    },
     # "openwrt_total_up": {
         # "icon": "mdi:upload-network",
         # "label": "上传总量",
@@ -117,30 +153,5 @@ BUTTON_TYPES = {
         "device_class": "restart",
         "action": "reconnect_iface",
         "iface": "docker", 
-    },
-    "openwrt_node_subscribe": {
-        "label": "OpenWrt重新订阅fq节点",
-        "name": "openwrt_node_subscribe",
-        "device_class": "restart",
-        "action": "submit_data",
-        "parameter1": "admin/services/passwall/node_subscribe", 
-        "parameter2": "admin/services/passwall/node_subscribe", 
-        "body": {
-            "token": "action_token}}",
-            "cbi.submit": "1",
-            "cbi.cbe.passwall.cfg08b7d7.subscribe_proxy": "1",
-            "cbid.passwall.cfg08b7d7.filter_keyword_mode": "1",
-            "cbid.passwall.cfg08b7d7.filter_discard_list": "s801",
-            "cbid.passwall.cfg08b7d7.filter_discard_list": "剩余流量",
-            "cbid.passwall.cfg08b7d7.filter_discard_list": "QQ群",
-            "cbid.passwall.cfg08b7d7.filter_discard_list": "官网",
-            "cbid.passwall.cfg08b7d7.filter_keep_list": "",
-            "cbid.passwall.cfg08b7d7.ss_aead_type": "xray",
-            "cbid.passwall.cfg08b7d7.trojan_type": "trojan-plus",
-            "cbi.sts.passwall.subscribe_list": "",
-            "cbid.passwall.cfg108b02.remark": "SS",
-            "cbid.passwall.cfg108b02.url": "填写节点订阅地址", #此处可填写自己的订阅地址
-            "cbid.passwall.cfg108b02._update": "手动订阅"
-            }
     }
 }
