@@ -129,10 +129,12 @@ class DataFetcher:
         body = ""
 
         url =  self._host + DO_URL + parameter
+        url2 = self._host + DO_URL + "/admin/status/overview"
         
         try:
             async with timeout(10): 
                 resdata = await self._hass.async_add_executor_job(self.requestget_data, url, header)
+                resdata2 = await self._hass.async_add_executor_job(self.requestget_data_text, url2, header, body)
         except (
             ClientConnectorError
         ) as error:
@@ -159,7 +161,9 @@ class DataFetcher:
                 self._data["openwrt_cputemp"] = cputemp[0]
         else:
             self._data["openwrt_cputemp"] = 0
-        
+        self._data["openwrt_cpufre"] = cpuinfo.split( )[0]
+        self._data["openwrt_userinfo"] = resdata["userinfo"].replace("\n%","")
+        self._data["openwrt_conncount"] = resdata["conncount"] 
         self._data["openwrt_uptime"] = self.seconds_to_dhms(resdata["uptime"])        
         self._data["openwrt_cpu"] = resdata["cpuusage"].replace("\n%","")
         self._data["openwrt_memory"] = round((1 - resdata["memory"]["available"]/resdata["memory"]["total"])*100,0)
@@ -182,6 +186,11 @@ class DataFetcher:
         # self._data["openwrt_download"] = round(resdata["Data"]["sysstat"]["stream"]["download"]/1024/1024, 3)
         # self._data["openwrt_total_up"] = round(resdata["Data"]["sysstat"]["stream"]["total_up"]/1024/1024/1024, 2)
         # self._data["openwrt_total_down"] = round(resdata["Data"]["sysstat"]["stream"]["total_down"]/1024/1024/1024, 2)
+        openwrtversion = resdata2.replace("\n","").replace("\r","")
+        self._data["openwrt_kernel"] = re.findall(r"内核版本</td><td>(.+?)</td>", openwrtversion)[0]
+        self._data["openwrt_name"] = re.findall(r"<meta name=\"application-name\" content=\"(.+?) - LuCI", openwrtversion)[0]
+        self._data["openwrt_version"] = re.findall(r"固件版本</td><td>(.+?)</td>", openwrtversion)[0].replace("\t","")
+        self._data["openwrt_cpu_brand"] = re.findall(r"型号</td><td>(.+?) :", openwrtversion)[0]
         
         
         querytime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
